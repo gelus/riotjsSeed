@@ -1,5 +1,5 @@
-
 <demo>
+  <button class="lazyButton" onclick={ addNewPost }>Lazy load Test</button>
   <h3>My Feed: { greet("Steve") }</h3>
   <test each={post, i in test } username="Bob">
     <ul>
@@ -18,10 +18,21 @@
       padding: 10px;
       list-style: none;
     }
+
+    .lazyButton {
+      float: right;
+    }
   </style>
 
   <script type="babel">
     this.mixin('myMixin');
+
+    this.addNewPost = function(){
+      this.lazyLoad().then(function(lazy){
+        this.test.push(lazy.getPost());
+        this.update();
+      }.bind(this));
+    }
 
     this.test = [
       {text: 'Six witches switched some switches.'},
